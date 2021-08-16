@@ -823,12 +823,11 @@
 
                 }
                 part = url.split('/')
-                info = part[part.length - 1]
+                info = part[part.length - 2]
 
                 if (info === 'accept' || info === 'reject' || info === 'cancel') {
                     url = url.replace("/" + info, '')
                     url += '/' + info
-                    console.log(url);
                 }
             }
             if (selected.body !== null) {
