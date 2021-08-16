@@ -30,6 +30,12 @@ app.use("/posts", postsRouter);
 app.use("/proposals", proposalsRouter);
 app.use("/requests", requestsRouter);
 app.use("/feedback", feedbackRouter);
+app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+app.get('/style.css', function (req, res) {
+    res.sendFile(__dirname + "/" + "style.css");
+});
+app.use(express.static(__dirname));
 app.get('/', function root(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
