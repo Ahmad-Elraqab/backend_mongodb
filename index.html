@@ -606,23 +606,21 @@
         displayParams()
         displayBody()
 
-        function addStr(str, index, stringToAdd) {
-            return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
-        }
         function getList() {
+
             var string = '<div id="row" data-id="' + list.indexOf(selected) + '"><div id="' + selected.type + '">' + selected.type.toUpperCase() + '</div><div id="link">' + selected.link + '</div>'
 
             if (selected.params !== null) {
                 part = selected.link.split('/')
                 info = part[part.length - 1]
-
                 for (const [key, value] of Object.entries(selected.params)) {
                     string += '/ <input type="text" id="' + key + '" name="' + key + '" value="' + value + '">'
                 }
                 if (info === 'accept' || info === 'reject' || info === 'cancel') {
-                    string.replace(info, '')
-                    string += '/' + info
+                    string = string.replace("/" + info, "")
+                    string += "/" + info
                 }
+
             }
             if (selected.query !== null) {
                 index = 0
@@ -828,7 +826,7 @@
                 info = part[part.length - 1]
 
                 if (info === 'accept' || info === 'reject' || info === 'cancel') {
-                    url.replace(info, '')
+                    url = url.replace("/" + info, '')
                     url += '/' + info
                     console.log(url);
                 }
