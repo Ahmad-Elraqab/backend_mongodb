@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/f281791205.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+    <style>
+        .content {
+            width: 70%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* background-color: seashell; */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        #row {
+            display: flex !important;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            padding: 5px;
+            width: 100%;
+            justify-content: start;
+            align-items: center;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: black
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: black
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: black
+        }
+
+        a:active {
+            text-decoration: none;
+            color: black
+        }
+
+        .p-row {
+            border-bottom: 1px solid gray;
+            display: flex;
+            width: 700px;
+            flex-direction: column;
+            margin-bottom: 2rem;
+        }
+
+        #row-i {
+            width: 86%;
+            justify-self: flex-end;
+            align-self: flex-end;
+        }
+
+        /* #row #link { */
+        /* margin-right: 0.5rem; */
+        /* } */
+
+        #row-i #img {
+            width: 500px;
+            height: 500px;
+        }
+
+        #row:hover {
+            /* background-color: seashell; */
+            cursor: pointer;
+        }
+
+        #get {
+            padding: 2px 15px;
+            background-color: rgb(3, 75, 231);
+            border-radius: 10px;
+            color: #fff;
+            margin-right: 2rem;
+        }
+
+        #post {
+            padding: 2px 15px;
+            background-color: rgb(4, 170, 4);
+            border-radius: 10px;
+            color: #fff;
+            margin-right: 2rem;
+        }
+
+        #put {
+            padding: 2px 15px;
+            background-color: gray;
+            border-radius: 10px;
+            color: #fff;
+            margin-right: 2rem;
+        }
+
+        #delete {
+            padding: 2px 15px;
+            background-color: rgb(216, 21, 21);
+            border-radius: 10px;
+            color: #fff;
+            margin-right: 2rem;
+        }
+
+        #api-list {
+
+            border-radius: 10px;
+            height: 150px;
+            /* width: 700px; */
+            width: 100%;
+            padding: 1rem;
+            background-color: rgb(230, 228, 228);
+            overflow-y: auto;
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 15px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        #request {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            margin-top: 5rem;
+            height: 600px;
+        }
+
+        #fromjson {
+            width: 40%;
+            border-radius: 20px;
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+            background-color: rgb(230, 228, 228);
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: center;
+            text-align: start;
+            height: 100%;
+        }
+
+        #fromjson-form {
+            height: 100%;
+            overflow-y: auto;
+            padding: 2rem;
+
+        }
+
+        #fromjson label {
+
+            margin-right: 1rem;
+
+        }
+
+        input:focus {
+            outline: none !important;
+            box-shadow: 0 0 10px #719ECE;
+        }
+
+        #test {
+            height: 40px;
+            padding: 0.5rem 2rem;
+            border-radius: 15px;
+            background-color: tomato;
+            box-shadow: 0px 5px 5px #888888;
+            border: transparent;
+
+        }
+
+        #tojson {
+            width: 40%;
+            border-radius: 20px;
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+            background-color: rgb(230, 228, 228);
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            height: 100%;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        #tojson label {
+
+            margin-right: 1rem;
+
+        }
+
+        #flex-box {
+            display: flex;
+            flex-direction: row;
+            margin-left: 3.5rem;
+        }
+
+        #flex {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #flex-box-error {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin-left: 1.5rem;
+        }
+
+        input {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .lds-roller {
+            display: inline-block;
+            margin: 0 auto;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-roller div {
+            animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            transform-origin: 40px 40px;
+        }
+
+        .lds-roller div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: black;
+            margin: -4px 0 0 -4px;
+        }
+
+        .lds-roller div:nth-child(1) {
+            animation-delay: -0.036s;
+        }
+
+        .lds-roller div:nth-child(1):after {
+            top: 63px;
+            left: 63px;
+        }
+
+        .lds-roller div:nth-child(2) {
+            animation-delay: -0.072s;
+        }
+
+        .lds-roller div:nth-child(2):after {
+            top: 68px;
+            left: 56px;
+        }
+
+        .lds-roller div:nth-child(3) {
+            animation-delay: -0.108s;
+        }
+
+        .lds-roller div:nth-child(3):after {
+            top: 71px;
+            left: 48px;
+        }
+
+        .lds-roller div:nth-child(4) {
+            animation-delay: -0.144s;
+        }
+
+        .lds-roller div:nth-child(4):after {
+            top: 72px;
+            left: 40px;
+        }
+
+        .lds-roller div:nth-child(5) {
+            animation-delay: -0.18s;
+        }
+
+        .lds-roller div:nth-child(5):after {
+            top: 71px;
+            left: 32px;
+        }
+
+        .lds-roller div:nth-child(6) {
+            animation-delay: -0.216s;
+        }
+
+        .lds-roller div:nth-child(6):after {
+            top: 68px;
+            left: 24px;
+        }
+
+        .lds-roller div:nth-child(7) {
+            animation-delay: -0.252s;
+        }
+
+        .lds-roller div:nth-child(7):after {
+            top: 63px;
+            left: 17px;
+        }
+
+        .lds-roller div:nth-child(8) {
+            animation-delay: -0.288s;
+        }
+
+        .lds-roller div:nth-child(8):after {
+            top: 56px;
+            left: 12px;
+        }
+
+        @keyframes lds-roller {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .fa {
+            margin-right: 0.5rem;
+        }
+
+        .fa:hover {
+            cursor: pointer;
+        }
+
+        .padding-left {
+            padding-left: 1.5rem;
+        }
+
+        .fa-file {
+            padding-left: 3rem;
+        }
+    </style>
+
+    <title>Document</title>
+
+</head>
+
+<body>
+
+    <img src="image/logo.png" alt="">
+    <div class="content">
+
+        <div id="api-list">
+
+            <!-- <div id="row">
+                <div id="get">GET</div>
+                <a
+                    href="https://service-backend-web.herokuapp.com/users">https://service-backend-web.herokuapp.com/users</a>
+
+                <div class="fa fa-check" aria-hidden="true"></div>
+            </div> -->
+
+        </div>
+
+        <div id="request">
+            <div id="fromjson">
+                <form id="fromjson-form" action="" method="POST">
+
+                </form>
+            </div>
+            <button id="test" onclick="onTest()">Test</button>
+            <div id="tojson">
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        var list = [
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/users",
+                query: null,
+                params: null,
+                body: null
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/users/categories",
+                query: null,
+                params: null,
+                body: null
+            },
+            {
+                type: "post",
+                link: "https://service-backend-web.herokuapp.com/users/login/auth",
+                query: null,
+                params: null,
+                body: { email: 'example@gmail.com', password: '123' }
+            },
+            {
+                type: "post",
+                link: "https://service-backend-web.herokuapp.com/users/signup/auth",
+                params: null,
+                query: null,
+                body: { email: 'example@gmail.com', password: '123', firstName: 'example', lastName: 'example', jobName: 'example', isServiceProvider: 'false' }
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/users",
+                query: null,
+                params: null,
+                params: { id: '60f25bb8c61ad04fdc443421' },
+                body: {
+                    notification: {
+                        showNotificatoin: null,
+                        allowNotificationDot: null,
+                        excutivePrograms: null,
+                        discountsDeals: null
+                    },
+                    id: null,
+                    firstName: 'jalal',
+                    lastName: 'ajlan',
+                    fullName: 'jalalajlan',
+                    imgSrc: 'https://randomuser.me/api/portraits/men/20.jpg',
+                    email: 'jalalajlan@gmail.com',
+                    password: '123',
+                    gender: null,
+                    jobDescription: null,
+                    rate: null,
+                    diagnosingFees: null,
+                    city: 'Johor Bahru',
+                    country: null,
+                    phoneNumber: null,
+                    postalCode: null,
+                    long: null,
+                    token: null,
+                    isServiceProvider: true,
+                    isCashPaymentActive: null,
+                    jobName: 'Home Improvment'
+                }
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/orders",
+                params: null,
+                query: { id: "60f6e3cab5d1fd0004d5d502", type: "false" },
+                body: null
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/orders",
+                params: { id: "60f6f802b5d1fd0004d5d511" },
+                query: null,
+                body: { status: "Accepted" }
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/orders/add_feedback",
+                params: { id: "60f6f802b5d1fd0004d5d511" },
+                query: null,
+                body: { rate: "5", feedback: "good job" }
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/posts",
+                params: null,
+                query: null,
+                body: null
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/posts",
+                params: { _id: "610e1e8570d15a00041d892d" },
+                query: null,
+                body: null
+            },
+            {
+                type: "post",
+                link: "https://service-backend-web.herokuapp.com/posts",
+                params: { _id: "610e1e8570d15a00041d892d" },
+                query: null,
+                body: { serviceProviderId: "60f71170b5d1fd0004d5d515", customerId: "610e1e8570d15a00041d892d", diagnosisFee: 50, paymentMethod: "cash", description: "example", steps: ["1", "2"] }
+            },
+            {
+                type: "post",
+                link: "https://service-backend-web.herokuapp.com/posts",
+                params: null,
+                query: null,
+                body: {
+                    customerId: "60f71170b5d1fd0004d5d515",
+                    location: "example",
+                    paymentMethod: "example",
+                    cancelationFee: "example",
+                    tags: "example",
+                    imgSrc: "example",
+                    description: "example"
+                }
+            },
+            {
+                type: "delete",
+                link: "https://service-backend-web.herokuapp.com/posts",
+                params: { _id: "example" },
+                query: null,
+                body: null
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/proposals",
+                params: { id: "example", type: "example" },
+                query: null,
+                body: null
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/proposals",
+                params: { id: "example" },
+                query: null,
+                body: null
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/proposals",
+                params: { id: "example" },
+                query: null,
+                body: null
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/proposals",
+                params: { id: "example" },
+                query: null,
+                body: null
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/proposals",
+                params: { id: "example" },
+                query: null,
+                body: null
+            },
+            {
+                type: "get",
+                link: "https://service-backend-web.herokuapp.com/requests",
+                params: null,
+                query: { id: "example", type: "example" },
+                body: null
+            },
+            {
+                type: "post",
+                link: "https://service-backend-web.herokuapp.com/requests/create",
+                params: null,
+                query: null,
+                body: {
+                    id: "example",
+                    customerId: "example",
+                    serviceProviderId: "example",
+                    description: "example",
+                    fees: "example",
+                    payment: "example",
+                    location: "example"
+                }
+            },
+            {
+                type: "put",
+                link: "https://service-backend-web.herokuapp.com/requests",
+                params: { id: "example" },
+                query: null,
+                body: {
+                    status: "example",
+                }
+            },
+        ]
+        let response = {}
+        let selected = list[0]
+        let toggleState = []
+        displayParams()
+        displayBody()
+
+        function getList() {
+            var string = '<div id="row" data-id="' + list.indexOf(selected) + '"><div id="' + selected.type + '">' + selected.type.toUpperCase() + '</div><div id="link">' + selected.link + '</div>'
+
+            if (selected.params !== null)
+                for (const [key, value] of Object.entries(selected.params)) {
+                    string += '/ <input type="text" id="' + key + '" name="' + key + '" value="' + value + '">'
+                }
+            if (selected.query !== null) {
+                index = 0
+                for (const [key, value] of Object.entries(selected.query)) {
+                    string += (index === 0 ? '?' : '&') + key + '= <input type="text" id="' + key + '" name="' + key + '" value="' + value + '">'
+                    index++
+                }
+            }
+            string += '<div class="fa fa-check" aria-hidden="true"></div></div>'
+
+            $('#api-list').html('')
+            list.forEach((e) => {
+
+                if (selected === e)
+                    $("#api-list").append(string)
+                else
+                    $("#api-list").append('<div id="row" onclick="onClick(event)" data-id="' + list.indexOf(e) + '"><div id="' + e.type + '">' + e.type.toUpperCase() + '</div><div id="link">' + e.link + '</div></div>')
+            })
+
+        }
+        function onClick(event) {
+            $('#fromjson-form').html('')
+            $('#tojson').html('')
+            selected = list[event.target.closest('#row').dataset.id]
+
+            displayParams()
+            displayBody()
+            getList()
+        }
+        function displayBody() {
+
+            // $('#fromjson-form').append('<h4 style="padding:0.5rem; width:100%; text-align:center; background-color:seashell; border-radius:20px;">Body<h4>')
+            $('#fromjson-form').append('<h4>{</h4>')
+            try {
+
+                for (const [key, value] of Object.entries(selected.body)) {
+                    $('#fromjson-form').append('<div id="flex-box"><label for="' + key + '">' + key + '</label><input type="text" id="' + key + '" name="' + key + '" value="' + value + '"></div><br>')
+                    // console.log(key, value);
+                }
+
+            } catch (error) {
+
+                $('#fromjson-form').append('<div id="flex-box"><h5>empty body</h5></div>')
+            }
+            $('#fromjson-form').append('<h4>}</h4>')
+
+        }
+        function displayParams() {
+
+            // $('#fromjson-form').append('<h4 style="padding:0.5rem; width:100%; text-align:center; background-color:seashell; border-radius:20px;">Params<h4>')
+            // $('#fromjson-form').append('<h4>{</h4>')
+            // for (const [key, value] of Object.entries(selected.params)) {
+            //     $('#fromjson-form').append('<div id="flex-box"><label for="' + key + '">' + key + '</label><input type="text" id="' + key + '" name="' + key + '" value="' + value + '"></div><br>')
+            //     // console.log(key, value);
+            // }
+            // $('#fromjson-form').append('<h4>}</h4>')
+
+        }
+        function displayResponse() {
+
+            $('#tojson').html('')
+
+            try {
+                response.map((e) => {
+                    value = toggleState.find((t) => t === (response.indexOf(e) + ""))
+                    if (value === undefined) {
+                        $('#tojson').append('<div id="flex" data-id="' + response.indexOf(e) + '" onclick="toggleObject(event)"><div class="fa fa-arrow-down" aria-hidden="true"></div><h4>{</h4></div>')
+                        for (const [key, value] of Object.entries(e)) {
+                            $('#tojson').append('<div id="flex-box"><label for="' + key + '">' + key + '</label><input readonly type="text" id="' + key + '" name="' + key + '" value="' + value + '"></div><br>')
+                        }
+                    }
+                    else {
+                        $('#tojson').append('<div id="flex" data-id="' + response.indexOf(e) + '" onclick="toggleObject(event)"><div class="fa fa-arrow-right" aria-hidden="true"></div><h4>{</h4></div>')
+                        $('#tojson').append('<div class="fa fa-file" aria-hidden="true"></div>')
+                    }
+
+                    $('#tojson').append('<h4 class="padding-left">}</h4>')
+                })
+            } catch (error) {
+
+
+                if (toggleState.find((e) => e === "0") === undefined) {
+                    $('#tojson').append('<div id="flex" data-id="0" onclick="toggleObject(event)"><div class="fa fa-arrow-down" aria-hidden="true"></div><h4>{</h4></div>')
+                    for (const [key, value] of Object.entries(response)) {
+                        $('#tojson').append('<div id="flex-box"><label for="' + key + '">' + key + '</label><input readonly type="text" id="' + key + '" name="' + key + '" value="' + value + '"></div><br>')
+                    }
+
+                } else {
+                    $('#tojson').append('<div id="flex" data-id="0" onclick="toggleObject(event)"><div class="fa fa-arrow-right" aria-hidden="true"></div><h4>{</h4></div>')
+                    $('#tojson').append('<div class="fa fa-file" aria-hidden="true"></div>')
+                }
+                $('#tojson').append('<h4 class="padding-left">}</h4>')
+            }
+
+        }
+        function onTest() {
+
+            toggleState = []
+
+            if (selected.type === "get")
+                get()
+            else if (selected.type === "post")
+                post()
+            else if (selected.type === "put")
+                put()
+
+        }
+        function get() {
+            link = selected.link
+            $('#tojson').append('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>')
+            if (selected.query !== null) {
+                index = 0
+                for (const [key, value] of Object.entries(selected.query)) {
+
+                    link += (index === 0 ? '?' : '&') + key + '=' + document.getElementById(key).value + ''
+                    index++
+                }
+            }
+
+            if (selected.params !== null) {
+                index = 0
+                for (const [key, value] of Object.entries(selected.params)) {
+
+                    link += '/' + document.getElementById(key).value + ''
+                    index++
+                }
+            }
+
+            console.log(link);
+            $.ajax({
+                url: link,
+                success: function (res) {
+                    response = res
+
+                    if (response === null)
+                        response = {
+                            message: "no posts found"
+                        }
+
+                    displayResponse()
+                }
+            })
+
+
+        }
+        function post() {
+            link = selected.link
+            if (selected.query !== null) {
+                index = 0
+                for (const [key, value] of Object.entries(selected.query)) {
+
+                    link += (index === 0 ? '?' : '&') + key + '=' + document.getElementById(key).value + ''
+                    index++
+                }
+            }
+
+            if (selected.params !== null) {
+                index = 0
+                for (const [key, value] of Object.entries(selected.params)) {
+
+                    link += '/' + document.getElementById(key).value + ''
+                    index++
+                }
+            }
+            $('#tojson').append('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>')
+
+            for (const [key, value] of Object.entries(selected.body)) {
+
+                selected.body[key] = document.getElementById(key).value + ''
+            }
+
+            $.ajax({
+                type: "POST",
+                url: selected.link,
+                data: JSON.stringify(selected.body),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (res) {
+                    response = res
+                    if (response === null)
+                        response = {
+                            message: "no posts found"
+                        }
+
+                    displayResponse()
+                },
+                error: function (error) {
+                    response = error.responseJSON
+                    displayResponse()
+                }
+
+            });
+        }
+        function put() {
+
+            var url = selected.link
+
+            for (const [key, value] of Object.entries(selected.params)) {
+
+                url += '/' + document.getElementById(key).value + ''
+
+            }
+
+            $('#tojson').append('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>')
+
+            for (const [key, value] of Object.entries(selected.body)) {
+
+                selected.body[key] = document.getElementById(key).value + ''
+            }
+            console.log(url);
+            $.ajax({
+                url: url,
+                type: 'PATCH',
+                data: JSON.stringify(selected.body),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (res) {
+                    response = res
+                    if (response === null)
+                        response = {
+                            message: "no posts found"
+                        }
+
+                    displayResponse()
+                },
+                error: function (error) {
+                    response = error.responseJSON
+                    displayResponse()
+                }
+            });
+        }
+        function toggleObject(event) {
+
+            id = event.target.closest('#flex').dataset.id
+            data = toggleState.find((e) => e === id)
+
+            if (data === undefined)
+                toggleState.push(id)
+            else
+                toggleState.splice(toggleState.indexOf(id), 1)
+
+            displayResponse()
+
+
+        }
+
+        getList()
+
+    </script>
+</body>
+
+</html>

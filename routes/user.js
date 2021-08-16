@@ -31,9 +31,6 @@ router.get('/categories', cors(), async (req, res) => {
 
 })
 
-
-
-
 router.get('/serviceprovider', cors(), async (req, res) => {
 
     console.log(req.query)
@@ -133,12 +130,10 @@ router.post('/signup/auth', cors(), async (req, res) => {
     }
 })
 
-// Getting One
 router.get('/:id', getUser, (req, res) => {
     res.json(res.user)
 })
 
-// Creating one
 router.post('/', async (req, res) => {
 
 
@@ -187,27 +182,6 @@ router.post('/service-provider/create', async (req, res) => {
     }
 })
 
-// Updating One
-// router.patch('/:id', getUser, async (req, res) => {
-
-//     try {
-//         // console.log(req.body);
-//         // console.log(req.body._id);
-
-//         if (req.body._id != null) {
-//             res.user = req.body
-//             // console.log(res.user);
-//         }
-
-//         const updatedUser = await res.user.save()
-//         console.log(updatedUser);
-//         res.json(updatedUser)
-//     } catch (err) {
-//         res.status(400).json({ message: err.message })
-//     }
-// })
-
-// Deleting One
 router.delete('/:id', getUser, async (req, res, next) => {
     try {
         await res.user.remove()
@@ -217,28 +191,13 @@ router.delete('/:id', getUser, async (req, res, next) => {
     }
 })
 
-// async function getUser(req, res, next) {
-//     let user
-//     try {
-//         user = await User.findById(req.params.id)
-//         // console.log(user);
-
-//     } catch (err) {
-//         return res.status(500).json({ message: err.message })
-//     }
-
-//     res.user = user
-
-//     next()
-// }
-
-
 router.patch('/:id', async (req, res) => {
 
 
     try {
         const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        console.log(updateUser);
+        console.log(req.body);
+        // console.log(updateUser);
         res.json(updateUser)
 
     } catch (err) {
@@ -246,7 +205,6 @@ router.patch('/:id', async (req, res) => {
     }
 })
 
-// finds User by id
 async function getUser(req, res, next) {
     let user
     try {
