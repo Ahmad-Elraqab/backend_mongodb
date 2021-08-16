@@ -543,28 +543,28 @@
             {
                 type: "get",
                 link: "https://service-backend-web.herokuapp.com/proposals",
-                params: { id: "60f71170b5d1fd0004d5d515" },
+                params: { id: "60f71424b5d1fd0004d5d519" },
                 query: null,
                 body: null
             },
             {
                 type: "put",
-                link: "https://service-backend-web.herokuapp.com/proposals",
-                params: { id: "example" },
+                link: "https://service-backend-web.herokuapp.com/proposals/accept",
+                params: { id: "60f7147fb5d1fd0004d5d51a" },
                 query: null,
                 body: null
             },
             {
                 type: "put",
-                link: "https://service-backend-web.herokuapp.com/proposals",
-                params: { id: "example" },
+                link: "https://service-backend-web.herokuapp.com/proposals/reject",
+                params: { id: "60f7147fb5d1fd0004d5d51a" },
                 query: null,
                 body: null
             },
             {
                 type: "put",
-                link: "https://service-backend-web.herokuapp.com/proposals",
-                params: { id: "example" },
+                link: "https://service-backend-web.herokuapp.com/proposals/cancel",
+                params: { id: "60f7147fb5d1fd0004d5d51a" },
                 query: null,
                 body: null
             },
@@ -572,7 +572,7 @@
                 type: "get",
                 link: "https://service-backend-web.herokuapp.com/requests",
                 params: null,
-                query: { id: "example", type: "example" },
+                query: { id: "60f25bb8c61ad04fdc443421", type: "false" },
                 body: null
             },
             {
@@ -582,8 +582,8 @@
                 query: null,
                 body: {
                     id: "example",
-                    customerId: "example",
-                    serviceProviderId: "example",
+                    customerId: "60f25bb8c61ad04fdc443421",
+                    serviceProviderId: "60f25bb8c61ad04fdc443421",
                     description: "example",
                     fees: "example",
                     payment: "example",
@@ -593,10 +593,10 @@
             {
                 type: "put",
                 link: "https://service-backend-web.herokuapp.com/requests",
-                params: { id: "example" },
+                params: { id: "6119e7a6659e660004657ca4" },
                 query: null,
                 body: {
-                    status: "example",
+                    status: "Accepted",
                 }
             },
         ]
@@ -606,13 +606,24 @@
         displayParams()
         displayBody()
 
+        function addStr(str, index, stringToAdd) {
+            return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+        }
         function getList() {
             var string = '<div id="row" data-id="' + list.indexOf(selected) + '"><div id="' + selected.type + '">' + selected.type.toUpperCase() + '</div><div id="link">' + selected.link + '</div>'
 
-            if (selected.params !== null)
+            if (selected.params !== null) {
+                part = selected.link.split('/')
+                info = part[part.length - 1]
+
                 for (const [key, value] of Object.entries(selected.params)) {
                     string += '/ <input type="text" id="' + key + '" name="' + key + '" value="' + value + '">'
                 }
+                if (info === 'accept' || info === 'reject' || info === 'cancel') {
+                    string.replace(info, '')
+                    string += '/' + info
+                }
+            }
             if (selected.query !== null) {
                 index = 0
                 for (const [key, value] of Object.entries(selected.query)) {
@@ -732,11 +743,9 @@
             }
 
             if (selected.params !== null) {
-                index = 0
                 for (const [key, value] of Object.entries(selected.params)) {
 
                     link += '/' + document.getElementById(key).value + ''
-                    index++
                 }
             }
 
@@ -808,20 +817,31 @@
         function put() {
 
             var url = selected.link
+            if (selected.params !== null) {
 
-            for (const [key, value] of Object.entries(selected.params)) {
+                for (const [key, value] of Object.entries(selected.params)) {
 
-                url += '/' + document.getElementById(key).value + ''
+                    url += '/' + document.getElementById(key).value + ''
 
+                }
+                part = url.split('/')
+                info = part[part.length - 1]
+
+                if (info === 'accept' || info === 'reject' || info === 'cancel') {
+                    url.replace(info, '')
+                    url += '/' + info
+                    console.log(url);
+                }
+            }
+            if (selected.body !== null) {
+
+                for (const [key, value] of Object.entries(selected.body)) {
+
+                    selected.body[key] = document.getElementById(key).value + ''
+                }
             }
 
             $('#tojson').append('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>')
-
-            for (const [key, value] of Object.entries(selected.body)) {
-
-                selected.body[key] = document.getElementById(key).value + ''
-            }
-            console.log(url);
             $.ajax({
                 url: url,
                 type: 'PATCH',
