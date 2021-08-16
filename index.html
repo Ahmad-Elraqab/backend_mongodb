@@ -529,7 +529,7 @@
             {
                 type: "delete",
                 link: "https://service-backend-web.herokuapp.com/posts",
-                params: { _id: "example" },
+                params: { _id: "6119e1c7a24a34000427b820" },
                 query: null,
                 body: null
             },
@@ -652,13 +652,11 @@
         }
         function displayBody() {
 
-            // $('#fromjson-form').append('<h4 style="padding:0.5rem; width:100%; text-align:center; background-color:seashell; border-radius:20px;">Body<h4>')
             $('#fromjson-form').append('<h4>{</h4>')
             try {
 
                 for (const [key, value] of Object.entries(selected.body)) {
                     $('#fromjson-form').append('<div id="flex-box"><label for="' + key + '">' + key + '</label><input type="text" id="' + key + '" name="' + key + '" value="' + value + '"></div><br>')
-                    // console.log(key, value);
                 }
 
             } catch (error) {
@@ -726,6 +724,8 @@
                 post()
             else if (selected.type === "put")
                 put()
+            else if (selected.type === "delete")
+                del()
 
         }
         function get() {
@@ -799,7 +799,7 @@
                     response = res
                     if (response === null)
                         response = {
-                            message: "no posts found"
+                            message: "no results found"
                         }
 
                     displayResponse()
@@ -848,7 +848,42 @@
                     response = res
                     if (response === null)
                         response = {
-                            message: "no posts found"
+                            message: "no results found"
+                        }
+
+                    displayResponse()
+                },
+                error: function (error) {
+                    response = error.responseJSON
+                    displayResponse()
+                }
+            });
+        }
+        function del() {
+
+            var url = selected.link
+            if (selected.params !== null) {
+
+                for (const [key, value] of Object.entries(selected.params)) {
+
+                    url += '/' + document.getElementById(key).value + ''
+
+                }
+
+            }
+
+
+            $('#tojson').append('<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>')
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                contentType: "application/json",
+                dataType: "json",
+                success: function (res) {
+                    response = res
+                    if (response === null)
+                        response = {
+                            message: "no result found"
                         }
 
                     displayResponse()
