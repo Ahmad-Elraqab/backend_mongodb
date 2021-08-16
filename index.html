@@ -747,7 +747,6 @@
                 }
             }
 
-            console.log(link);
             $.ajax({
                 url: link,
                 success: function (res) {
@@ -842,7 +841,7 @@
             $.ajax({
                 url: url,
                 type: 'PATCH',
-                data: JSON.stringify(selected.body),
+                data: selected.body === null ? {} : JSON.stringify(selected.body),
                 contentType: "application/json",
                 dataType: "json",
                 success: function (res) {
