@@ -38,8 +38,10 @@ app.use(express.static(__dirname + "/public"));
 app.get("/style.css", function (req, res) {
   res.sendFile(__dirname + "/" + "style.css");
 });
-
-app.use(express.static(__dirname));
+// app.use(express.static(__dirname));
+// app.get("/", function root(req, res) {
+//   res.sendFile(__dirname + "/index.html");
+// });
 
 const port = process.env.PORT || 5000;
 app.listen(process.env.PORT || 5000, () =>
